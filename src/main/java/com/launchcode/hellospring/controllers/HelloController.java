@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class HelloController {
 
     // handles request at /hello
-//    @GetMapping("hello")
+//    @GetMapping("")
 //    @ResponseBody
 //    public String hello() {
 //        return "Hello, Spring";
@@ -23,27 +23,44 @@ public class HelloController {
 
     // handles requests of the form /hello?name=LaunchCode
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String helloWithQueryParam(@RequestParam String name) {
-        return "Hello " + name + "!";
+    public String helloWithQueryParam(@RequestParam String name, @RequestParam String language) {
+        String greetName = name == null || name.isEmpty() ? "World!" : name + "!";
+        String greeting = language.equals("en") ? "Hello, " :
+                language.equals("fr") ? "Bonjour, " :
+                        language.equals("it") ? "Buongiorno, " :
+                                language.equals("es") ? "Hola, " :
+                                        language.equals("de") ? "Hallo, " :
+                                                "Mabuhay, ";
+        return greeting + greetName;
     }
 
     // handles requests of the form /hello/LaunchCode
-    @GetMapping("{name}")
-    public String helloWithPathParam(@PathVariable String name) {
-        return "Hello " + name + "!";
-    }
+//    @GetMapping("{name}/{language}")
+//    public String helloWithPathParam(@PathVariable String name) {
+//        return "Hello " + name + "!";
+//    }
 
     @GetMapping("form")
     public String helloForm() {
         String html =
                 "<html>" +
                         "<body>" +
-                            "<form method = 'post' action = 'hello'>" +
-                                "<input type = 'text' name = 'name' />" +
-                                "<input type = 'submit' value = 'Greet Me!' />" +
+                        "<form method = 'post' action = '/hello'>" +
+                        "<label for='name-input'>Name: </label>" +
+                        "<input id='name-input' type = 'text' name = 'name' />" +
+                        "<label for='lang-select'>Language: </label>" +
+                        "<select id='lang-select' name='language'>" +
+                        "<option value='en'>English</option>" +
+                        "<option value='fr'>French</option>" +
+                        "<option value='it'>Italian</option>" +
+                        "<option value='es'>Spanish</option>" +
+                        "<option value='de'>German</option>" +
+                        "<option value='tg'>Tagalog</option>" +
+                        "</select>" +
+                        "<input type = 'submit' value = 'Greet Me!' />" +
                         "   </form>" +
                         "</body>" +
-                "</html>";
+                        "</html>";
         return html;
     }
 

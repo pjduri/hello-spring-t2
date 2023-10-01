@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @ResponseBody
-@RequestMapping("hello")
+//@RequestMapping("hello")
 public class HelloController {
 
     // handles request at /hello
@@ -22,7 +22,7 @@ public class HelloController {
     }
 
     // handles requests of the form /hello?name=LaunchCode
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "createMessage")
     public String helloWithQueryParam(@RequestParam String name, @RequestParam String language) {
         String greetName = name == null || name.isEmpty() ? "World!" : name + "!";
         String greeting = language.equals("en") ? "Hello, " :
@@ -45,7 +45,7 @@ public class HelloController {
         String html =
                 "<html>" +
                         "<body>" +
-                        "<form method = 'post' action = '/hello'>" +
+                        "<form method = 'post' action = 'createMessage'>" +
                         "<label for='name-input'>Name: </label>" +
                         "<input id='name-input' type = 'text' name = 'name' />" +
                         "<label for='lang-select'>Language: </label>" +
